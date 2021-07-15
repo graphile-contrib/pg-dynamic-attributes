@@ -4,6 +4,7 @@
   "description": "PostGraphile plugin to fetch, order by and filter by dynamic attributes that are fetched from records in a related table at runtime.",
   "main": "dist/index.js",
   "scripts": {
+    "dev": "DEBUG=\"*:sql\" concurrently --kill-others \"tsc --watch\" \"nodemon --watch dist -x 'postgraphile --append-plugins `pwd` -c postgres:///dynamic_attributes -s dynamic_attributes --watch --enhance-graphiql --allow-explain'\"",
     "prepack": "rm -Rf dist && tsc",
     "test": "jest"
   },
@@ -30,6 +31,9 @@
   "homepage": "https://github.com/graphile-contrib/pg-dynamic-attributes#readme",
   "devDependencies": {
     "@tsconfig/node14": "^1.0.0",
+    "concurrently": "^6.2.0",
+    "graphile-build-pg": "^4.12.1",
+    "nodemon": "^2.0.12",
     "postgraphile": "^4.12.3",
     "postgraphile-plugin-connection-filter": "^2.2.1",
     "prettier": "^2.2.1",
@@ -39,7 +43,5 @@
     "graphile-build": "^4.12.0",
     "tslib": "^2.1.0"
   },
-  "files": [
-    "dist"
-  ]
+  "files": ["dist"]
 }
