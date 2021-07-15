@@ -386,5 +386,9 @@ export const ConnectionArgSortPlugin: Plugin = (builder) => {
         `Adding 'sort' argument to field '${fieldName}' of '${Self.name}'`,
       );
     },
+    [],
+    // Load this BEFORE the orderBy plugin
+    ["PgConnectionArgOrderBy"],
+    [],
   );
 };
