@@ -24,8 +24,8 @@ create table object_properties (
 comment on table objects is E'@dynamicAttributes object_properties value';
 ```
 
-This will add the `Object.attribute` field to your GraphQL schema for fetching a
-dynamic attribute:
+This will add the `Object.dynamicAttribute` field to your GraphQL schema for
+fetching a dynamic attribute:
 
 ```graphql
 type Object {
@@ -35,7 +35,7 @@ type Object {
   Fetches the dynamic attribute given the value of `attribute` for this
   `Object`.
   """
-  dynamicAttribute(attribute: String!): String
+  dynamicAttribute(match: ObjectDynamicAttribute): String
 }
 ```
 
@@ -120,7 +120,9 @@ then we'll also add filters to this plugin under the `dynamicAttribute` key:
       and: [
         {
           dynamicAttribute: {
-            attribute: "Attribute1"
+            match: {
+              attribute: "Attribute1"
+            }
             filter: {
               equalTo: "Value1"
             }
@@ -128,7 +130,9 @@ then we'll also add filters to this plugin under the `dynamicAttribute` key:
         },
         {
           dynamicAttribute: {
-            attribute: "Attribute2"
+            match: {
+              attribute: "Attribute2"
+            }
             filter: {
               equalTo: "Value2"
             }
@@ -167,6 +171,10 @@ app.use(
   }),
 );
 ```
+
+## Status
+
+Experimental; the API may yet change.
 
 ## Thanks 🙏
 
