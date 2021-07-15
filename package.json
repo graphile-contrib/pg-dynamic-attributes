@@ -1,0 +1,45 @@
+{
+  "name": "@graphile-contrib/pg-dynamic-attributes",
+  "version": "0.0.0",
+  "description": "PostGraphile plugin to fetch, order by and filter by dynamic attributes that are fetched from records in a related table at runtime.",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepack": "rm -Rf dist && tsc",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/graphile-contrib/pg-dynamic-attributes.git"
+  },
+  "keywords": [
+    "postgraphile",
+    "graphile",
+    "graphile-build",
+    "eav",
+    "dynamic",
+    "attributes",
+    "properties",
+    "columns",
+    "stored"
+  ],
+  "author": "Benjie Gillam <code@benjiegillam.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/graphile-contrib/pg-dynamic-attributes/issues"
+  },
+  "homepage": "https://github.com/graphile-contrib/pg-dynamic-attributes#readme",
+  "devDependencies": {
+    "@tsconfig/node14": "^1.0.0",
+    "postgraphile": "^4.12.3",
+    "postgraphile-plugin-connection-filter": "^2.2.1",
+    "prettier": "^2.2.1",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "graphile-build": "^4.12.0",
+    "tslib": "^2.1.0"
+  },
+  "files": [
+    "dist"
+  ]
+}
