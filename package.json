@@ -1,6 +1,6 @@
 {
   "name": "@graphile-contrib/pg-dynamic-attributes",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "PostGraphile plugin to fetch, order by and filter by dynamic attributes that are fetched from records in a related table at runtime.",
   "main": "dist/index.js",
   "scripts": {
@@ -43,5 +43,7 @@
     "graphile-build": "^4.12.0",
     "tslib": "^2.1.0"
   },
-  "files": ["dist"]
+  "files": [
+    "dist"
+  ]
 }
