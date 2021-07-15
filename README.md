@@ -95,7 +95,7 @@ Specifies a sort for the `Object` type - what should we sort by, should it be
 ascending or descending, and how should we handle nulls?
 """
 input ObjectSort {
-  sortBy: ObjectSortBy
+  sortBy: ObjectSortBy!
   ascending: Boolean! = true
   nulls: SortNulls! = DEFAULT
 }
