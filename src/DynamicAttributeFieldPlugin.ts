@@ -63,7 +63,7 @@ export const DynamicAttributeFieldPlugin: Plugin = (builder) => {
                         build,
                         spec,
                         queryBuilder.getTableAlias(),
-                        parsedResolveInfoFragment.args.input,
+                        parsedResolveInfoFragment.args.match,
                       ),
                       valueColumn.type,
                       valueColumn.typeModifier,
@@ -76,7 +76,7 @@ export const DynamicAttributeFieldPlugin: Plugin = (builder) => {
             });
             return {
               args: {
-                input: {
+                match: {
                   type: TableDynamicAttribute,
                 },
               },
