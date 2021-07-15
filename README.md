@@ -45,12 +45,22 @@ by these attributes:
 ```graphql
 """
 When the given sortable is null, should we position this at the end of the list
-(`LAST`) or the beginning of the list (`FIRST`)? `DEFAULT` means nulls will be
-last when in ascending order, or first when in descending order.
+or the beginning of the list?
 """
 enum SortNulls {
+  """
+  Order nulls last when in ascending order, or first when in descending order.
+  """
   DEFAULT
+
+  """
+  Order nulls first (at the beginning of the list).
+  """
   FIRST
+
+  """
+  Order nulls last (at the end of the list).
+  """
   LAST
 }
 
