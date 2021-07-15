@@ -20,6 +20,14 @@ export const DynamicAttributesInflectionPlugin: Plugin = (builder) => {
         sortType(table: PgClass) {
           return this.upperCamelCase(`${this._tableName(table)}-sort`);
         },
+        dynamicAttributeType(table: PgClass) {
+          return this.upperCamelCase(
+            `${this._tableName(table)}-dynamic-attribute`,
+          );
+        },
+        dynamicAttribute() {
+          return "dynamicAttribute";
+        },
       },
       "Adding pg-dynamic-attributes inflectors",
     );

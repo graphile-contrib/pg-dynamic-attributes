@@ -6,7 +6,6 @@ import type {
 } from "graphile-build-pg";
 import type {
   GraphQLEnumType,
-  GraphQLFieldMap,
   GraphQLInputFieldMap,
   GraphQLInputObjectType,
   GraphQLObjectType,
@@ -26,7 +25,7 @@ export interface SortBy {
 }
 
 export interface SortSpec {
-  specs: Array<string | SQL>;
+  specs: Array<string | SQL | ((props: { queryBuilder: QueryBuilder }) => SQL)>;
   cursorPrefix: string;
   unique?: boolean;
 }
@@ -90,7 +89,7 @@ function getSortBy(
       `Invalid value returned from ${type.name}.extensions.sortSpec: the cursorPrefix is not a string`,
     );
   }
-  if (typeof unique !== "string" && unique != null) {
+  if (typeof unique !== "boolean" && unique != null) {
     throw new Error(
       `Invalid value returned from ${type.name}.extensions.sortSpec: unique has invalid value`,
     );
