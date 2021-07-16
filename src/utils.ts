@@ -52,15 +52,20 @@ function _parseSpec(build: Build, table: PgClass): ParseSpecResult | null {
   const tablePkColumn = tablePk.keyAttributes[0];
 
   const parts = tag.split(" ");
-  if (parts.length > 2) {
+  const [
+    tableSpec,
+    columnSpec = "value",
+    uniqueConstraintName = null,
+    ...rest
+  ] = parts;
+
+  if (rest.length) {
     throw new Error(
       `Invalid smart tag value for 'dynamicAttribute' on ${describePgEntity(
         table,
-      )}; expected one or two values, but received '${tag}'`,
+      )}; too many parameters - received trailing '${rest.join("', '")}'`,
     );
   }
-
-  const [tableSpec, columnSpec] = parts;
 
   const tableSpecParts = tableSpec
     .split(".")
@@ -105,21 +110,25 @@ function _parseSpec(build: Build, table: PgClass): ParseSpecResult | null {
     );
   }
 
-  // We could allow the use of a different constraint, we're just using the
-  // primary key for simplicity currently.
-  const pk = dynamicAttributeTable.primaryKeyConstraint;
-  if (!pk) {
+  const ak = uniqueConstraintName
+    ? dynamicAttributeTable.constraints.find(
+        (c) => c.name === uniqueConstraintName,
+      )
+    : dynamicAttributeTable.primaryKeyConstraint;
+  if (!ak) {
     throw new Error(
       `Invalid smart tag value for 'dynamicAttribute' on ${describePgEntity(
         table,
-      )}; ${describePgEntity(
-        dynamicAttributeTable,
-      )} does not have a primary key`,
+      )}; ${dynamicAttributeTable.name} ${
+        uniqueConstraintName
+          ? `does not have a unique constraint named '${uniqueConstraintName}'`
+          : `does not have a primary key`
+      }`,
     );
   }
 
-  const pkAttributes = pk.keyAttributes;
-  if (pkAttributes.length < 2) {
+  const akAttributes = ak.keyAttributes;
+  if (akAttributes.length < 2) {
     throw new Error(
       `Invalid smart tag value for 'dynamicAttribute' on ${describePgEntity(
         table,
@@ -129,19 +138,21 @@ function _parseSpec(build: Build, table: PgClass): ParseSpecResult | null {
     );
   }
 
-  if (pkAttributes[0].type !== tablePkColumn.type) {
+  if (akAttributes[0].type !== tablePkColumn.type) {
     throw new Error(
       `Invalid smart tag value for 'dynamicAttribute' on ${describePgEntity(
         table,
-      )}; the first entry in ${describePgEntity(
-        dynamicAttributeTable,
-      )}'s primary key must be a reference to ${table.name}`,
+      )}; the first entry in ${dynamicAttributeTable.name}'s ${
+        uniqueConstraintName
+          ? `'${uniqueConstraintName}' constraint`
+          : `primary key`
+      } must be a reference to ${table.name}`,
     );
   }
 
   const referencedAttributes = [tablePkColumn];
-  const referencingAttributes = pkAttributes.slice(0, 1);
-  const keyAttributes = pkAttributes.slice(1);
+  const referencingAttributes = akAttributes.slice(0, 1);
+  const keyAttributes = akAttributes.slice(1);
 
   return {
     dynamicAttributeTable,

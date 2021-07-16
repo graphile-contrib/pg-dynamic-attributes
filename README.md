@@ -172,6 +172,33 @@ app.use(
 );
 ```
 
+## Using a unique constraint
+
+The example assumes that your primary key contains all the required attributes;
+however we can also support a unique constraint by passing its name as an
+additional argument to the `dynamicAttribute` smart comment:
+
+```sql
+create table objects (
+  id serial primary key,
+  name text not null,
+  created_at timestamptz not null default now()
+);
+
+create table object_properties (
+  id serial primary key,
+  object_id int not null references objects on delete cascade,
+  attribute text not null,
+  value text not null
+);
+alter table object_properties add constraint ak_object_properties_dynamic_attributes unique (object_id, attribute);
+
+comment on table objects is E'@dynamicAttributes object_properties value ak_object_properties_dynamic_attributes';
+```
+
+Note: it's still critical that the first entry in the unique constraint is the
+column that references the parent table's primary key.
+
 ## Status
 
 Experimental; the API may yet change.

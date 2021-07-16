@@ -4,7 +4,8 @@
   "description": "PostGraphile plugin to fetch, order by and filter by dynamic attributes that are fetched from records in a related table at runtime.",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "DEBUG=\"*:sql\" concurrently --kill-others \"tsc --watch\" \"nodemon --watch dist -x 'postgraphile --append-plugins postgraphile-plugin-connection-filter,`pwd` -c postgres:///dynamic_attributes -s dynamic_attributes --watch --enhance-graphiql --allow-explain --show-error-stack=json --extended-errors hint,detail,errcode'\"",
+    "dev": "yarn dev:db && DEBUG=\"*:sql\" concurrently --kill-others \"tsc --watch\" \"nodemon --watch dist -x 'postgraphile --append-plugins postgraphile-plugin-connection-filter,`pwd` -c postgres:///dynamic_attributes -s dynamic_attributes --watch --enhance-graphiql --allow-explain --show-error-stack=json --extended-errors hint,detail,errcode'\"",
+    "dev:db": "(createdb dynamic_attributes || true) && psql -X1v ON_ERROR_STOP=1 -f __tests__/schema.sql dynamic_attributes",
     "prepack": "rm -Rf dist && tsc",
     "test": "jest"
   },
